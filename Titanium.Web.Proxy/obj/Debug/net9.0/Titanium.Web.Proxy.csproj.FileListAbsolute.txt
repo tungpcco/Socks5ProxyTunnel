@@ -1,0 +1,11 @@
+D:\PROJECT\Socks5ProxyTunnel\Titanium.Web.Proxy\bin\Debug\net9.0\Titanium.Web.Proxy.dll.config
+D:\PROJECT\Socks5ProxyTunnel\Titanium.Web.Proxy\bin\Debug\net9.0\Titanium.Web.Proxy.deps.json
+D:\PROJECT\Socks5ProxyTunnel\Titanium.Web.Proxy\bin\Debug\net9.0\Titanium.Web.Proxy.dll
+D:\PROJECT\Socks5ProxyTunnel\Titanium.Web.Proxy\bin\Debug\net9.0\Titanium.Web.Proxy.pdb
+D:\PROJECT\Socks5ProxyTunnel\Titanium.Web.Proxy\obj\Debug\net9.0\Titanium.Web.Proxy.csproj.AssemblyReference.cache
+D:\PROJECT\Socks5ProxyTunnel\Titanium.Web.Proxy\obj\Debug\net9.0\Titanium.Web.Proxy.GeneratedMSBuildEditorConfig.editorconfig
+D:\PROJECT\Socks5ProxyTunnel\Titanium.Web.Proxy\obj\Debug\net9.0\Titanium.Web.Proxy.csproj.CoreCompileInputs.cache
+D:\PROJECT\Socks5ProxyTunnel\Titanium.Web.Proxy\obj\Debug\net9.0\Titanium.Web.Proxy.dll
+D:\PROJECT\Socks5ProxyTunnel\Titanium.Web.Proxy\obj\Debug\net9.0\refint\Titanium.Web.Proxy.dll
+D:\PROJECT\Socks5ProxyTunnel\Titanium.Web.Proxy\obj\Debug\net9.0\Titanium.Web.Proxy.pdb
+D:\PROJECT\Socks5ProxyTunnel\Titanium.Web.Proxy\obj\Debug\net9.0\ref\Titanium.Web.Proxy.dll

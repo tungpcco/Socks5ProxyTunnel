@@ -1,0 +1,1 @@
+{"socks5_ipaddress":"192.168.1.23","socks5_port":8886,"socks5_username":"admin","sock5_password":"admin123","proxy_ipaddress":"0.0.0.0","proxy_listen_port":8089,"proxy_socks_listen_port":8088,"proxy_username":"admin","proxy_password":"admin123","EnableLog":false}

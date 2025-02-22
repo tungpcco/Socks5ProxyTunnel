@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Socks5ProxyTunnel", "Socks5ProxyTunnel\Socks5ProxyTunnel.csproj", "{6E59326B-BBAB-4530-87D7-7460A7B0ECC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Titanium.Web.Proxy", "Titanium.Web.Proxy\Titanium.Web.Proxy.csproj", "{BECE175B-872C-4A22-9927-3030665388F5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6E59326B-BBAB-4530-87D7-7460A7B0ECC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E59326B-BBAB-4530-87D7-7460A7B0ECC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E59326B-BBAB-4530-87D7-7460A7B0ECC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E59326B-BBAB-4530-87D7-7460A7B0ECC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BECE175B-872C-4A22-9927-3030665388F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BECE175B-872C-4A22-9927-3030665388F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BECE175B-872C-4A22-9927-3030665388F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BECE175B-872C-4A22-9927-3030665388F5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
