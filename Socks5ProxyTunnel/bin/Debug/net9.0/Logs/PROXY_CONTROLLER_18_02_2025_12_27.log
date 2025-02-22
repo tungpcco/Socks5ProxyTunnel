@@ -1,3 +1,0 @@
-[2/18/2025 12:27:10 PM]	[PROXY_CONTROLLER_StartProxy]	INFO	 Listening on 'ExplicitProxyEndPoint' endpoint at Ip 0.0.0.0 and port: 8088
-[2/18/2025 12:27:10 PM]	[PROXY_CONTROLLER_StartProxy]	INFO	 Listening on 'SocksProxyEndPoint' endpoint at Ip 0.0.0.0 and port: 8090
-[2/18/2025 12:27:41 PM]	[API_SERVER_writeToConsole[0.0.0.0:8088]]	ERROR	 Error occured in whilst handling the client

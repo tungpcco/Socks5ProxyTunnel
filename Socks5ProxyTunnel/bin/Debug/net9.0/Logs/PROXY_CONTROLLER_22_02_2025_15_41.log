@@ -1,2 +1,0 @@
-[2/22/2025 3:41:09 PM]	[PROXY_CONTROLLER_StartProxy]	INFO	 Listening on 'ExplicitProxyEndPoint' endpoint at Ip 0.0.0.0 and port: 8089
-[2/22/2025 3:41:09 PM]	[PROXY_CONTROLLER_StartProxy]	INFO	 Listening on 'SocksProxyEndPoint' endpoint at Ip 0.0.0.0 and port: 8088
