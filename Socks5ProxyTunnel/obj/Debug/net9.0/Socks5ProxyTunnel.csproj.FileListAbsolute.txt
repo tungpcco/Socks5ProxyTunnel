@@ -20,3 +20,4 @@ D:\PROJECT\Socks5ProxyTunnel\Socks5ProxyTunnel\obj\Debug\net9.0\refint\Socks5Pro
 D:\PROJECT\Socks5ProxyTunnel\Socks5ProxyTunnel\obj\Debug\net9.0\Socks5ProxyTunnel.pdb
 D:\PROJECT\Socks5ProxyTunnel\Socks5ProxyTunnel\obj\Debug\net9.0\Socks5ProxyTunnel.genruntimeconfig.cache
 D:\PROJECT\Socks5ProxyTunnel\Socks5ProxyTunnel\obj\Debug\net9.0\ref\Socks5ProxyTunnel.dll
+D:\PROJECT\Socks5ProxyTunnel\Socks5ProxyTunnel\obj\Debug\net9.0\Socks5ProxyTunnel.sourcelink.json
