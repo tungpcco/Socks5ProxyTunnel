@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Socks5ProxyTunnel")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e1c0b76d51f5444c2a76c4a209516c3edec55323")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2fc0f68db0137c655cab89ca6a834ec460d1bde1")]
 [assembly: System.Reflection.AssemblyProductAttribute("Socks5ProxyTunnel")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Socks5ProxyTunnel")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

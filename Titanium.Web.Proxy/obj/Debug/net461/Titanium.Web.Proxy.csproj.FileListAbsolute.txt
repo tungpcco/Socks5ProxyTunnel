@@ -57,3 +57,4 @@ D:\PROJECT\Socks5ProxyTunnel\Titanium.Web.Proxy\obj\Debug\net461\Titanium.Web.Pr
 D:\PROJECT\Socks5ProxyTunnel\Titanium.Web.Proxy\obj\Debug\net461\Titanium.66687E80.Up2Date
 D:\PROJECT\Socks5ProxyTunnel\Titanium.Web.Proxy\obj\Debug\net461\Titanium.Web.Proxy.dll
 D:\PROJECT\Socks5ProxyTunnel\Titanium.Web.Proxy\obj\Debug\net461\Titanium.Web.Proxy.pdb
+D:\PROJECT\Socks5ProxyTunnel\Titanium.Web.Proxy\obj\Debug\net461\Titanium.Web.Proxy.sourcelink.json

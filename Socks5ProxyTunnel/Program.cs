@@ -29,7 +29,7 @@ namespace Socks5ProxyTunnel
             
             if (args.Count() <= 0)
             {
-                Console.WriteLine("Invalid Parameter!\r\ns5tunnel <socks5_ipaddress> <socks5_port> <socks5_username> <sock5_password> <proxy_ipaddress> <proxy_listen_port> <proxy_socks_listen_port> <proxy_username> <proxy_password>");
+                Console.WriteLine("Invalid Parameter!\r\ns5tunnel <socks5_ipaddress> <socks5_port> <socks5_username> <sock5_password> <proxy_ipaddress> <proxy_listen_port> <proxy_socks_listen_port> <proxy_username> <proxy_password> <speed_limit> <maximum_bandwidth>");
                 Environment.Exit(0);
             }else{
                 if (File.Exists(args[0]))
@@ -51,16 +51,33 @@ namespace Socks5ProxyTunnel
                             proxy_password = args[8],
                             EnableLog = false
                         };
+
+                        try
+                        {
+                            options.by_limit_per_seconds = string.IsNullOrEmpty(args[9])? 0 : Convert.ToInt32( args[9]);
+                            options.maximum_bandwidth = string.IsNullOrEmpty(args[10])? 0 : Convert.ToInt32( args[10]);
+                        }
+                        catch (Exception e)
+                        {
+                            options.by_limit_per_seconds = 0;
+                            options.maximum_bandwidth = 0;
+                        }
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine("Invalid Parameter!\r\ns5tunnel <socks5_ipaddress> <socks5_port> <socks5_username> <sock5_password> <proxy_ipaddress> <proxy_listen_port> <proxy_socks_listen_port> <proxy_username> <proxy_password>");
+                        Console.WriteLine("Invalid Parameter!\r\ns5tunnel <socks5_ipaddress> <socks5_port> <socks5_username> <sock5_password> <proxy_ipaddress> <proxy_listen_port> <proxy_socks_listen_port> <proxy_username> <proxy_password> <speed_limit> <maximum_bandwidth>");
+                        
+                        Console.WriteLine(e.Message +Environment.NewLine+ e.StackTrace);
                         Environment.Exit(0);
                     }
                 }
             }
 
             ProxyController _server = new ProxyController();
+            _server.SetDownloadVolumeLimit(options.maximum_bandwidth * 1024 * 1024); // MB to bytes
+            _server.SetUploadVolumeLimit(options.maximum_bandwidth * 1024 * 1024); // MB to bytes
+            _server.SetDownloadLimit(options.by_limit_per_seconds * 1024); // KB/s to bytes/s
+            _server.SetUploadLimit(options.by_limit_per_seconds * 1024); // KB/s to bytes/s
             _server._ProxyOptions = options;
             _server.StartProxy();
             while (true)

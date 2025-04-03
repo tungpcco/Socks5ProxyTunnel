@@ -1,2 +1,2 @@
 #!/bin/bash
-dotnet /opt/Socks5ProxyTunnel/Socks5ProxyTunnel.dll $1
+dotnet /opt/Socks5ProxyTunnel/Socks5ProxyTunnel.dll $@

@@ -7,8 +7,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Titanium.Web.Proxy;
+using Titanium.Web.Proxy.Bandwidth;
 using Titanium.Web.Proxy.EventArguments;
 using Titanium.Web.Proxy.Exceptions;
+using Titanium.Web.Proxy.Extension;
 using Titanium.Web.Proxy.Helpers;
 using Titanium.Web.Proxy.Http;
 using Titanium.Web.Proxy.Models;
@@ -18,7 +20,8 @@ namespace Socks5ProxyTunnel
 {
     public class ProxyController : IDisposable
     {
-        private readonly ProxyServer proxyServer;
+        //private readonly ProxyServer proxyServer;
+        private readonly BandwidthEnabledProxyServer proxyServer;
         private ExplicitProxyEndPoint explicitEndPoint;
 
         private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
@@ -39,11 +42,19 @@ namespace Socks5ProxyTunnel
             
             Task.Run(() => listenToConsole());
 
-            proxyServer = new ProxyServer();
+            //proxyServer = new ProxyServer();
+            proxyServer = new BandwidthEnabledProxyServer();
 
             //proxyServer.EnableHttp2 = true;
 
             proxyServer.ProxyAuthenticationRealm = "Proxy Server Auth require?";
+            
+            // Thiết lập chính sách kiểm soát băng thông
+            proxyServer.SetDownloadSpeedLimit(1024 * 1024); // 1 MB/s
+            proxyServer.SetUploadSpeedLimit(512 * 1024);   // 512 KB/s
+            
+            // Đăng ký event để theo dõi băng thông
+            proxyServer.BandwidthManager.BandwidthChanged += OnBandwidthChanged;
             
             proxyServer.ExceptionFunc = async exception =>
             {
@@ -436,8 +447,16 @@ namespace Socks5ProxyTunnel
 
         public void Dispose()
         {
+            // Hủy đăng ký sự kiện băng thông
+            if (proxyServer?.BandwidthManager != null)
+            {
+                proxyServer.BandwidthManager.BandwidthChanged -= OnBandwidthChanged;
+                proxyServer.BandwidthManager.DownloadVolumeLimitReached -= OnDownloadVolumeLimitReached;
+                proxyServer.BandwidthManager.UploadVolumeLimitReached -= OnUploadVolumeLimitReached;
+            }
+            
             cancellationTokenSource.Dispose();
-            proxyServer.Dispose();
+            proxyServer?.Dispose();
         }
 
         ///// <summary>
@@ -450,5 +469,151 @@ namespace Socks5ProxyTunnel
         //    public byte[] RequestBody { get; set; }
         //    public string RequestBodyString { get; set; }
         //}
+        
+        /// <summary>
+        /// Xử lý sự kiện khi băng thông thay đổi
+        /// </summary>
+        private void OnBandwidthChanged(object sender, BandwidthEventArgs e)
+        {
+            Console.WriteLine($"Download: Total {FormatBytes(e.TotalDownloadedBytes)}, Speed {FormatBytes(e.CurrentDownloadSpeed)}/s");
+            Console.WriteLine($"Upload: Total {FormatBytes(e.TotalUploadedBytes)}, Speed {FormatBytes(e.CurrentUploadSpeed)}/s");
+        }
+        
+        /// <summary>
+        /// Xử lý sự kiện khi đạt đến giới hạn dung lượng tải xuống
+        /// </summary>
+        private void OnDownloadVolumeLimitReached(object sender, VolumeLimitEventArgs e)
+        {
+            Console.WriteLine($"WARNING: Download volume limit of {FormatBytes(e.LimitBytes)} has been reached!");
+            Console.WriteLine("Further download requests will be blocked until the limit is reset.");
+            
+            // Có thể thêm hành động như gửi thông báo, ghi log, v.v.
+        }
+        
+        /// <summary>
+        /// Xử lý sự kiện khi đạt đến giới hạn dung lượng tải lên
+        /// </summary>
+        private void OnUploadVolumeLimitReached(object sender, VolumeLimitEventArgs e)
+        {
+            Console.WriteLine($"WARNING: Upload volume limit of {FormatBytes(e.LimitBytes)} has been reached!");
+            Console.WriteLine("Further upload requests will be blocked until the limit is reset.");
+            
+            // Có thể thêm hành động như gửi thông báo, ghi log, v.v.
+        }
+        
+        /// <summary>
+        /// Format số byte thành định dạng dễ đọc
+        /// </summary>
+        private string FormatBytes(long bytes)
+        {
+            string[] sizes = { "B", "KB", "MB", "GB", "TB" };
+            double len = bytes;
+            int order = 0;
+            while (len >= 1024 && order < sizes.Length - 1) 
+            {
+                order++;
+                len = len / 1024;
+            }
+            
+            return $"{len:0.##} {sizes[order]}";
+        }
+        
+        /// <summary>
+        /// Các phương thức xử lý sự kiện khác giữ nguyên...
+        /// </summary>
+        
+        // Các phương thức điều khiển băng thông
+        
+        /// <summary>
+        /// Thiết lập giới hạn tốc độ tải xuống
+        /// </summary>
+        public void SetDownloadLimit(long bytesPerSecond)
+        {
+            proxyServer.SetDownloadSpeedLimit(bytesPerSecond);
+            Console.WriteLine($"Download speed limit set to {FormatBytes(bytesPerSecond)}/s");
+        }
+        
+        /// <summary>
+        /// Thiết lập giới hạn tốc độ tải lên
+        /// </summary>
+        public void SetUploadLimit(long bytesPerSecond)
+        {
+            proxyServer.SetUploadSpeedLimit(bytesPerSecond);
+            Console.WriteLine($"Upload speed limit set to {FormatBytes(bytesPerSecond)}/s");
+        }
+        
+        /// <summary>
+        /// Vô hiệu hóa tất cả giới hạn
+        /// </summary>
+        public void DisableAllLimits()
+        {
+            proxyServer.SetDownloadSpeedLimit(-1);
+            proxyServer.SetUploadSpeedLimit(-1);
+            proxyServer.SetDownloadVolumeLimit(-1);
+            proxyServer.SetUploadVolumeLimit(-1);
+            proxyServer.ResetVolumeLimits();
+            Console.WriteLine("All bandwidth limits have been disabled.");
+        }
+        
+        /// <summary>
+        /// Thiết lập giới hạn dung lượng tải xuống
+        /// </summary>
+        public void SetDownloadVolumeLimit(long bytes)
+        {
+            proxyServer.SetDownloadVolumeLimit(bytes);
+            Console.WriteLine($"Download volume limit set to {FormatBytes(bytes)}");
+        }
+        
+        /// <summary>
+        /// Đặt lại cờ giới hạn dung lượng (cho phép tải lên/xuống tiếp tục)
+        /// </summary>
+        public void ResetVolumeLimits()
+        {
+            proxyServer.ResetVolumeLimits();
+            Console.WriteLine("Volume limit flags have been reset. Data transfer is now allowed.");
+        }
+        
+        /// <summary>
+        /// Thiết lập giới hạn dung lượng tải lên
+        /// </summary>
+        public void SetUploadVolumeLimit(long bytes)
+        {
+            proxyServer.SetUploadVolumeLimit(bytes);
+            Console.WriteLine($"Upload volume limit set to {FormatBytes(bytes)}");
+        }
+        
+        /// <summary>
+        /// Hiển thị thống kê băng thông hiện tại
+        /// </summary>
+        public void ShowBandwidthStats()
+        {
+            long downloadedBytes = proxyServer.GetTotalDownloadedBytes();
+            long uploadedBytes = proxyServer.GetTotalUploadedBytes();
+            
+            Console.WriteLine("\nBandwidth Statistics:");
+            Console.WriteLine($"Total Downloaded: {FormatBytes(downloadedBytes)}");
+            Console.WriteLine($"Total Uploaded: {FormatBytes(uploadedBytes)}");
+            Console.WriteLine($"Download Speed: {FormatBytes(proxyServer.BandwidthManager.CurrentDownloadSpeed)}/s");
+            Console.WriteLine($"Upload Speed: {FormatBytes(proxyServer.BandwidthManager.CurrentUploadSpeed)}/s");
+            
+            Console.WriteLine("\nBandwidth Limits:");
+            Console.WriteLine($"Download Speed Limit: {FormatBytes(proxyServer.BandwidthManager.DownloadSpeedLimit)}/s");
+            Console.WriteLine($"Upload Speed Limit: {FormatBytes(proxyServer.BandwidthManager.UploadSpeedLimit)}/s");
+            Console.WriteLine($"Download Volume Limit: {FormatBytes(proxyServer.BandwidthManager.DownloadVolumeLimit)}");
+            Console.WriteLine($"Upload Volume Limit: {FormatBytes(proxyServer.BandwidthManager.UploadVolumeLimit)}");
+            
+            Console.WriteLine("\nVolume Limit Status:");
+            Console.WriteLine($"Download Volume Limit Exceeded: {proxyServer.BandwidthManager.IsDownloadVolumeLimitExceeded}");
+            Console.WriteLine($"Upload Volume Limit Exceeded: {proxyServer.BandwidthManager.IsUploadVolumeLimitExceeded}");
+        }
+        
+        /// <summary>
+        /// Đặt lại thống kê băng thông
+        /// </summary>
+        public void ResetBandwidthStats()
+        {
+            proxyServer.ResetBandwidthStats();
+            Console.WriteLine("Bandwidth statistics reset");
+        }
     }
 }

@@ -27,3 +27,4 @@ D:\PROJECT\Socks5ProxyTunnel\Titanium.Web.Proxy\obj\Debug\netstandard2.1\Titaniu
 D:\PROJECT\Socks5ProxyTunnel\Titanium.Web.Proxy\obj\Debug\netstandard2.1\Titanium.Web.Proxy.csproj.CoreCompileInputs.cache
 D:\PROJECT\Socks5ProxyTunnel\Titanium.Web.Proxy\obj\Debug\netstandard2.1\Titanium.Web.Proxy.dll
 D:\PROJECT\Socks5ProxyTunnel\Titanium.Web.Proxy\obj\Debug\netstandard2.1\Titanium.Web.Proxy.pdb
+D:\PROJECT\Socks5ProxyTunnel\Titanium.Web.Proxy\obj\Debug\netstandard2.1\Titanium.Web.Proxy.sourcelink.json

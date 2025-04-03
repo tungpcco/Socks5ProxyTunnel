@@ -12,5 +12,7 @@ public class ProxyOptions
     public int proxy_socks_listen_port { get; set; }
     public string proxy_username { get; set; }
     public string proxy_password { get; set; }
+    public int by_limit_per_seconds { get; set; }
+    public int maximum_bandwidth { get; set; }
     public bool EnableLog { get; set; }
 }
